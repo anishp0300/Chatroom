@@ -28,8 +28,22 @@ def start_server():
         #c_thread.start()
         
     while True:
-        msg = clientsocket.recv(1024)
-        print(msg.decode("utf-8"))
+        inputBuffer = str(input())
+        clientsocket.send(inputBuffer.encode("utf-8"))
+        # try:
+        #     msg = clientsocket.recv(1024)
+        #     if msg: 
+        #         print(msg.decode("utf-8"))
+        
+        # except:
+        #     print("Error: Closing sockets.")
+        #     clientsocket.close()
+        #     break
+        
+
+def broadcast(message):
+    clientsocket.send(message.encode("utf-8"))
+
 
 #start the server
 start_server()
