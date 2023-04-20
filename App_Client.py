@@ -6,8 +6,6 @@ PORT = 1234
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-#client.connect((SERVER, PORT))
-
 done = False
 while not done:
 
@@ -23,23 +21,12 @@ while not done:
 		client.send(inputBuffer.encode('utf-8'))
 		done = True
 
-	#elif inputBuffer == "SEND":
-
-	else:
-		client.send(inputBuffer.encode('utf-8'))
+	elif inputBuffer.split(' ')[0] == "SEND":
+		client.send(inputBuffer[5:].encode('utf-8'))
 		msg = (client.recv(1024).decode('utf-8'))
-		if msg == 'quit':
-			done = True
-		else:
-			print(msg)
-
-#client.close()
-
-
-#~~~~~~~~~~~~~~~~~#
-   # MAIN LOOP #
-#~~~~~~~~~~~~~~~~~#
-
-
-
-
+		print(msg)
+	
+	else:
+		print("ERROR: Please use the CONNECT, SEND <message>, and QUIT commands.")
+	
+	
