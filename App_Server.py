@@ -8,19 +8,25 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((SERVER, PORT))
 
 server.listen()
-client, addr = server.accept()
+clients = []
+numClients = 0
 
-print('Connection has been established on {}:{}'.format(SERVER, PORT))
+while True:
+    client, addr = server.accept()
 
-done = False
-while not done:
+    print('Connection has been established on {}:{}'.format(SERVER, PORT))
 
-    msg = (client.recv(1024).decode('utf-8'))
-    if msg == 'quit':
-        done = True
-    else:
-        print(msg)
-        client.send(input("message: ").encode('utf-8'))
+    done = False
+    while not done:
+
+        msg = (client.recv(1024).decode('utf-8'))
+        if msg == 'QUIT':
+            done = True
+            client.close()
+            print("Connection with {}:{} has been closed.".format(SERVER,PORT))
+        else:
+            print(msg)
+            client.send(input("message: ").encode('utf-8'))
 
 client.close()
 server.close()
