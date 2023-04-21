@@ -5,7 +5,7 @@ import socket
 #-----------
 def receive_messages():
 	msg = (client.recv(1024).decode('utf-8'))
-	print(msg)
+	print("Server: " + msg)
 
 SERVER= "localhost"
 PORT = 1234
