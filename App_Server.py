@@ -39,7 +39,7 @@ while True:
 
     client_thread.start()
 
-    client_thread.join()
+    #client_thread.join()
 
 client.close()
 server.close()
