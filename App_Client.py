@@ -9,7 +9,7 @@ def receive_messages(client):
 		try:
 			msg = (client.recv(1024).decode('utf-8'))
 			if not done: 
-				print("\nServer: " + msg + "\n>>")
+				print("\n"+ msg + "\n>>", end='')
 		except:
 			print("Terminating receive thread")
 			break
@@ -17,19 +17,19 @@ def receive_messages(client):
 SERVER= "localhost"
 PORT = 1234
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 done = False
 while not done:
 
 	# Make client receive messages on a separate thread
-	receive_thread = threading.Thread(target=receive_messages, args=(client,))
+	receive_thread = threading.Thread(target=receive_messages, args=(server,))
 
 	# Allows user to enter commands
 	inputBuffer = input(">> ")
 	if inputBuffer == "CONNECT":
 		try: # Try connecting to the server when CONNECT is entered
-			client.connect((SERVER, PORT))
+			server.connect((SERVER, PORT))
 			print("-Connection Established-")
 			# Start receive thread once client has connected
 			receive_thread.start()
@@ -38,13 +38,13 @@ while not done:
 
 	# Tells server that the client wishes to quit the connection
 	elif inputBuffer == "QUIT":
-		client.send(inputBuffer.encode('utf-8'))
+		server.send(inputBuffer.encode('utf-8'))
 		done = True
 		#receive_thread.join(timeout=0.1)
 
 	# Checks for SEND <message> with SEND and <message> separated by a space (' ')
 	elif inputBuffer.split(' ')[0] == "SEND":
-		client.send(inputBuffer[5:].encode('utf-8'))
+		server.send(inputBuffer[5:].encode('utf-8'))
 		# After a message is sent, receive messages from the server
 		# receive_messages()
 	
