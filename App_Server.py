@@ -4,7 +4,6 @@ import socket
 #-----------#
 #FUNCTIONS#
 #-----------#
-
 def serving_client(client, addr):
     done = False
     while not done:
@@ -17,7 +16,7 @@ def serving_client(client, addr):
             print("Connection with {} has been closed.".format(addr))
 	
 	
-        else:  # If a connection is not closed, broadcast the message to all active threads/ clients
+        else:  # If the message isn't requesting to close the connection, broadcast the message to all active clients except the sender
             print("{}: {}".format(addr,msg))
             broadcast_clients(msg, activeClients, client_threads, client, addr)
     
@@ -28,7 +27,7 @@ def serving_client(client, addr):
 def receive_messages(client):
 	return(client.recv(1024).decode('utf-8'))
 
-# Fucntion to broadcast a message to all connected clients except the sending client
+# Function to broadcast a message to all connected clients except the sending client
 def broadcast_clients(msg, activeClients, client_threads, sendingClient, sendingAddr):
     for i in range(len(activeClients)):
         if activeClients[i] is not sendingClient:  # The message on the sending client is not broadcasted to itself. It broadcasts to all other active clients

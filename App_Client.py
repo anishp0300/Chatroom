@@ -40,13 +40,10 @@ while not done:
 	elif inputBuffer == "QUIT":
 		server.send(inputBuffer.encode('utf-8'))
 		done = True
-		#receive_thread.join(timeout=0.1)
 
 	# Checks for SEND <message> with SEND and <message> separated by a space (' ')
 	elif inputBuffer.split(' ')[0] == "SEND":
 		server.send(inputBuffer[5:].encode('utf-8'))
-		# After a message is sent, receive messages from the server
-		# receive_messages()
 	
 	# If the wrong command is entered display an error message
 	else:
